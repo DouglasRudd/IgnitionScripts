@@ -17,7 +17,6 @@ try:
 	GageID = pathAry[0]
 	
 	path = '[default]' + GageID + '/' + GageID + '/MES/MES Control Hold' 
-	logDebugMsg('StopGageHeatChanged, bravo corrected', path, event.getValue().value)
 	system.tag.writeBlocking([path], [True])
 	
 except Exception as e:
