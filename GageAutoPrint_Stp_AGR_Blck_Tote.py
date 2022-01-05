@@ -1,5 +1,5 @@
 
-# In addition to printing the Gage Tote-Tags, this script also (stops) or (flags) the AGR record as in 
+# In addition to printing the Gage Tote-Tags, this script also (stops) or (flags) the AGR record in 
 # the database as (complete) by providing the End Count values/data
 
 def logDebugMsg(msgID, message, msgSource):
@@ -96,7 +96,7 @@ try:
 # =========Stop reject count record for (Black Tote)========================================================
 
 	Total = system.tag.readBlocking([pathGageID + '/Station Data/ST1/ST 1 Total Bad Parts'])[0].value
-	STN_1_Count = system.tag.readBlocking([pathGageID + '/Station Data/ST1/ST 1 Total Bad Parts'])[0].value
+	STN_1_Count = system.tag.readBlocking([pathGageID + '/Station Data/ST1/ST 1 Total Rejects'])[0].value
 	STN_2_Count = system.tag.readBlocking([pathGageID + '/Station Data/ST2/ST 2 Total Bad Parts'])[0].value
 	STN_3_Count = system.tag.readBlocking([pathGageID + '/Station Data/ST3/ST 3 Total Bad Parts'])[0].value
 	STN_4_Count = system.tag.readBlocking([pathGageID + '/Station Data/ST4/ST 4 Total Bad Parts'])[0].value
