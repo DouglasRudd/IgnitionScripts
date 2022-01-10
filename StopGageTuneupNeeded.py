@@ -22,7 +22,7 @@ try:
 	CurrentTick = int(event.getValue().value)
 	divRemain  = divmod(CurrentTick, 10) # each 10th part
 	
-	if (divRemain[1] != 0):  # each 50th part
+	if (divRemain[1] != 0):  # each 10th part
 		quit()
 
 	resultSet = system.db.runNamedQuery("Gages", "GageMaintenance/Get_Last_Tuneup_Tick", {"Gage":GageID})
