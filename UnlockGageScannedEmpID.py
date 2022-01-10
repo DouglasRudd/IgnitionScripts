@@ -51,7 +51,7 @@ try:
 			if user.get('username') == empID:  #  username is numeric like '1234'
 			
 				if isSupervisor(user.getRoles()) == False:
-#					logDebugMsg('foxtrot ', 'supervisor = False', user.get('lastname'))
+					logDebugMsg('xfoxtrot', 'supervisor = False', user.get('lastname'))
 					quit()
 
 				path = str(event.getTagPath())
@@ -62,7 +62,7 @@ try:
 
 			 	system.tag.writeBlocking([path], [False])
 
-#				logDebugMsg('foxtrot ', GageID + ', supervisor = True', user.get('lastname'))
+#				logDebugMsg('xfoxtrot', GageID + ', supervisor = True', user.get('lastname'))
 		
 except Exception as e:
 
