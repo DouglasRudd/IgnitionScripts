@@ -31,20 +31,20 @@ try:
 	LastMaintenanceTick = int(resultSet.getValueAt(0, 0))		
 	if (LastMaintenanceTick == 0): # if this is the first time the Gage is reading this data 
 		# Seed the table with the current (total part count) / Initialize the table with CurrentTick (total part count)
-		system.db.runNamedQuery("Gages", "GageMaintenance/Set_Last_Tuneup_Tick", {"Gage":GageID,
-																				  "TotalParts":CurrentTick})
+		system.db.runNamedQuery("Gages", "GageMaintenance/Set_Last_Tuneup_Tick", {"Gage":GageID, "TotalParts":CurrentTick})
 		quit() # this was the first time the Gage read this data
 
-	partsThreshold = int(resultSet.getValueAt(0, 1))  #  the number of parts ran through the Gage since the maintenance work / mes-lock (originally this number was 4000)
+	partsThreshold = int(resultSet.getValueAt(0, 1))  #  the number of parts ran through the Gage since the previous maintenance work / mes-lock (originally this number was 4000)
 
 	if (CurrentTick - LastMaintenanceTick >= partsThreshold):
 		mesLockPath = '[default]' + GageID + '/' + GageID + '/MES/MES Control Hold' 
-		# system.tag.writeBlocking([mesLockPath], [True])
-		system.db.runNamedQuery("Gages", "GageMaintenance/Set_Last_Tuneup_Tick", {"Gage":GageID,
-																				  "TotalParts":CurrentTick})		
+		system.tag.writeBlocking([mesLockPath], [True])
+#		logDebugMsg('choca', GageID, 'MES Control Hold = True')
+		#  write locking record to Gage_Locking
+		system.db.runNamedQuery("Gages", "GageLockingTable/Lock_Gage", {"Gage":GageID, "Lock_Type":Globals.lock_type_operator}) # update the lock details table		
+		system.db.runNamedQuery("Gages", "GageMaintenance/Set_Last_Tuneup_Tick", {"Gage":GageID, "TotalParts":CurrentTick}) # update the counting logic / table	
 	else:
-		system.db.runNamedQuery("Gages", "GageMaintenance/Set_Current_Tick", {"Gage":GageID,
-																			  "TotalPartCount":CurrentTick})	
+		system.db.runNamedQuery("Gages", "GageMaintenance/Set_Current_Tick", {"Gage":GageID, "TotalPartCount":CurrentTick})	
 
 		
 		
