@@ -26,6 +26,9 @@ def GetGageFromPath(path):
 
 try:
 	
+	if (initialChange == 1):  # 1 means this script may have been 'saved' and that saving it generated the change event 
+		quit()
+
 	GageID = GetGageFromPath(str(event.tagPath))
 	pathGageID = '[default]' + GageID + '/' + GageID
 	pathToTag = pathGageID + '/Gage/Count/Batch Target'  # [default]G11/G11/Gage/Count/Batch Target
@@ -45,7 +48,7 @@ try:
 		path = '[default]' + GageID + '/' + GageID + '/MES/MES Control Hold'
 		system.tag.writeBlocking([path], [True])
 		
-		#logDebugMsg('~~~~~', pathToTag, type(maxVal))
+	# 	logDebugMsg('~~~~~', GageID, str(maxVal))
 	
 	
 except Exception as e:
