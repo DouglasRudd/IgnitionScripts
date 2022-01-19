@@ -18,27 +18,25 @@ def valueChanged(tag, tagPath, previousValue, currentValue, initialChange, misse
 	
 	try:
 
-		if currentValue.value is None:  # Sometimes currentValue is None, like when the Gage is turned off or perhaps in some other offline-like state
-			quit()
+		# [default]_types_/Gage/Scanner/Scan String
 
-# =========== WILL'S VANILLA CODE start ==============================================
+		if currentValue.value is None:  # Sometimes currentValue is None, like when the Gage is turned off or perhaps in some other offline-like state
+			return
+
+# =========== WILL'S CODE start ==============================================
 		if currentValue.value[0:3] == "<u>":
 			system.tag.write("[.]User",currentValue.value[3:7])
 	
 		elif len(currentValue.value) == 12:  # if a WIP Tag was scanned
 		
-			gage = system.tag.readBlocking(['[.]../Gage/Gage Name'])
-			gage = str(gage[0].value)
 			gageLock = system.tag.readBlocking(['[.]../MES/MES Control Hold'])
 			gageLock = str(gageLock[0].value)
 
 			if gageLock.upper() == 'True'.upper():
-				dbParams = {'msgID':'uniform', 'message':gageLock,'msgSource':gage}
-				system.db.runNamedQuery("Gages", "Debug/LogMsg", dbParams)
-				quit()		
+				quit() # Block or quit() the scanning of a WIP Tag when the Gage is locked		
 		
 			system.tag.write("[.]Active Wip",currentValue.value)
-# =========== WILL'S VANILLA CODE end ==============================================			
+# =========== WILL'S CODE end ==============================================			
 
 	except Exception as e:
 		eParams = {'msgID':'valueChanged err', # + system.tag.readBlocking(['[.]../Gage/Gage Name'])[0].value,
